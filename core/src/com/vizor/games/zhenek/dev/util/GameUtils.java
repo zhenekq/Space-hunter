@@ -2,14 +2,14 @@ package com.vizor.games.zhenek.dev.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.vizor.games.zhenek.dev.SpaceHunter;
-import com.vizor.games.zhenek.dev.entity.Meteors;
 import com.vizor.games.zhenek.dev.keyboard.KeyPressed;
+
+import java.io.File;
 
 public class GameUtils {
 
@@ -46,19 +46,29 @@ public class GameUtils {
         }
     }
 
-    public static void calculateRotate(Sprite sprite){
+    public static void calculateRotate(Sprite sprite) {
         Vector2 spriteVector = new Vector2();
         spriteVector.x = sprite.getX();
         spriteVector.y = sprite.getY();
         Vector2 resultVector = new Vector2();
-        resultVector.x = Gdx.input.getX() - spriteVector.x;
-        resultVector.y = Gdx.input.getY() - spriteVector.y;
+        resultVector.x = spriteVector.x - Gdx.input.getX();
+        resultVector.y = spriteVector.y - (Gdx.graphics.getHeight() - Gdx.input.getY());
         float deg = (float) (180 / Math.PI * Math.atan2(resultVector.y, resultVector.x));
-        sprite.setRotation(-deg);
+        sprite.setRotation(deg+90);
+        /*ShapeRenderer shapeRenderer = new ShapeRenderer();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(1, 1, 0, 1);
+        System.out.println("MOUSE: "+Gdx.input.getX() + "," + Gdx.input.getY());
+        System.out.println("OBJECT: "+sprite.getX() + "," + sprite.getY());
+        shapeRenderer.line(spriteVector.x, spriteVector.y, Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+        shapeRenderer.end();*/
+
     }
 
-    public static void checkMainLogic(SpaceHunter game, Sprite shipSprite, int index){
-
+    public static void playLoseMusic() {
+        File file = new File("core/assets/sounds/lose_sound.ogg");
+        Music music = Gdx.audio.newMusic(new FileHandle(file));
+        music.play();
     }
 
 }

@@ -1,49 +1,37 @@
 package com.vizor.games.zhenek.dev.entity;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import java.util.Objects;
 
-public class SpaceShip {
-    private float x,y;
-
-    public SpaceShip(float x, float y) {
-        this.x = x;
-        this.y = y;
+public class SpaceShip extends Sprite {
+    public SpaceShip(Texture texture) {
+        super(texture);
     }
 
-    public float getX() {
-        return x;
-    }
-
+    @Override
     public void setX(float x) {
-        this.x = x;
+        super.setX(x-getWidth()/2);
     }
 
-    public float getY() {
-        return y;
-    }
-
+    @Override
     public void setY(float y) {
-        this.y = y;
+        super.setY(y-getHeight()/2);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof SpaceShip)) return false;
-        SpaceShip spaceShip = (SpaceShip) o;
-        return Float.compare(spaceShip.getX(), getX()) == 0 && Float.compare(spaceShip.getY(), getY()) == 0;
+    public void setPosition(float x, float y) {
+        super.setPosition(x-getWidth()/2, y-getHeight()/2);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getX(), getY());
+    public float getX() {
+        return super.getX()+getWidth()/2;
     }
 
     @Override
-    public String toString() {
-        return "SpaceShip{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+    public float getY() {
+        return super.getY()+getHeight()/2;
     }
 }

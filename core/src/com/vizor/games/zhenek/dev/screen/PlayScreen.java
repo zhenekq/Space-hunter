@@ -1,13 +1,14 @@
 package com.vizor.games.zhenek.dev.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.entity.Meteors;
+import com.vizor.games.zhenek.dev.entity.SpaceShip;
 import com.vizor.games.zhenek.dev.keyboard.Factory;
 import com.vizor.games.zhenek.dev.keyboard.KeyPressed;
 import com.vizor.games.zhenek.dev.keyboard.MeteorService;
@@ -26,7 +27,7 @@ public class PlayScreen implements Screen {
 
     private SpaceHunter game;
     Texture shipTexture;
-    Sprite shipSprite;
+    SpaceShip shipSprite;
 
     Texture backgroundImage;
     Sprite backgroundSprite;
@@ -37,7 +38,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(SpaceHunter game) {
         this.game = game;
         shipTexture = new Texture(GameTexturePath.SHIP_TEXTURE);
-        shipSprite = new Sprite(shipTexture);
+        shipSprite = new SpaceShip(shipTexture);
         backgroundImage = new Texture(GameTexturePath.BACKGROUND_TEXTURE);
         backgroundSprite = new Sprite(backgroundImage);
         meteorSprite = Meteors.getMeteors().get(random(1, 19));
@@ -68,7 +69,7 @@ public class PlayScreen implements Screen {
 
     }
 
-    private void draw(){
+    private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.batch.draw(backgroundSprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -76,10 +77,10 @@ public class PlayScreen implements Screen {
         GameUtils.calculatePosition(shipSprite, shipSprite.getX(), shipSprite.getY());
         GameUtils.calculateRotate(shipSprite);
         timeSeconds += Gdx.graphics.getDeltaTime();
-        if (timeSeconds > period) {
+        /*if (timeSeconds > period) {
             timeSeconds -= period;
             game.batch.draw(Meteors.getMeteors().get(index), random(0, Gdx.graphics.getWidth()), random(0, Gdx.graphics.getHeight()));
-            Meteors.getMeteors().get(index).setPosition(300,300);
+            Meteors.getMeteors().get(index).setPosition(random(GameValues.ZERO_VALUE, Gdx.graphics.getWidth()),random(Gdx.graphics.getHeight() / 2,Gdx.graphics.getHeight()));
             Meteors.getMeteors().get(index).setRotation(random(-90, 90));
             index++;
         }
@@ -87,14 +88,17 @@ public class PlayScreen implements Screen {
             for (int i = 0; i < index; i++) {
                 Sprite meteor = Meteors.getMeteors().get(i);
                 GameUtils.calculatePosition(meteor, meteor.getX(), meteor.getY());
-                meteor.translate(-1, -1);
+                meteor.translate(-1,-1);
+                meteor.draw(game.batch);
                 if (shipSprite.getBoundingRectangle().overlaps(meteor.getBoundingRectangle())) {
                     index = 0;
+                    shipSprite.setPosition(GameValues.ZERO_VALUE,GameValues.ZERO_VALUE);
+                    GameUtils.playLoseMusic();
                     break;
                 }
                 meteor.draw(game.batch);
             }
-        }
+        }*/
         shipSprite.draw(game.batch);
         game.batch.end();
     }
