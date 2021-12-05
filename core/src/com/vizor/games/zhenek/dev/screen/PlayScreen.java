@@ -1,5 +1,6 @@
 package com.vizor.games.zhenek.dev.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,6 +11,7 @@ import com.vizor.games.zhenek.dev.entity.Meteors;
 import com.vizor.games.zhenek.dev.keyboard.Factory;
 import com.vizor.games.zhenek.dev.keyboard.KeyPressed;
 import com.vizor.games.zhenek.dev.keyboard.MeteorService;
+import com.vizor.games.zhenek.dev.util.GameCondition;
 import com.vizor.games.zhenek.dev.util.GameTexturePath;
 import com.vizor.games.zhenek.dev.util.GameUtils;
 
@@ -19,7 +21,7 @@ public class PlayScreen implements Screen {
 
     private KeyPressed keyPressed = Factory.getInstance().getKeyPressed();
     private MeteorService meteorService = Factory.getInstance().getMeteorService();
-
+    private GameCondition gameCondition = GameCondition.RUN;
 
     private SpaceHunter game;
     Texture shipTexture;
@@ -52,6 +54,17 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        switch (gameCondition){
+            case RUN:
+                draw();
+                break;
+            case PAUSE:
+
+        }
+
+    }
+
+    private void draw(){
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.batch.draw(backgroundSprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -82,8 +95,6 @@ public class PlayScreen implements Screen {
                 float y = shipSprite.getY();
                 shipSprite.set(new Sprite(new Texture(GameTexturePath.DESTROY_SHIP)));
                 shipSprite.setPosition(x, y);
-                game.pause();
-                break;
             }
         }
         shipSprite.draw(game.batch);
@@ -98,7 +109,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
-
+        this.gameCondition = GameCondition.PAUSE;
     }
 
     @Override
