@@ -14,6 +14,7 @@ import com.vizor.games.zhenek.dev.keyboard.MeteorService;
 import com.vizor.games.zhenek.dev.util.GameCondition;
 import com.vizor.games.zhenek.dev.util.GameTexturePath;
 import com.vizor.games.zhenek.dev.util.GameUtils;
+import com.vizor.games.zhenek.dev.util.GameValues;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
@@ -54,13 +55,16 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        switch (gameCondition){
+        /*switch (gameCondition){
             case RUN:
                 draw();
                 break;
             case PAUSE:
-
-        }
+                timeSeconds = 0;
+                period = 2;
+                break;
+        }*/
+        draw();
 
     }
 
@@ -72,29 +76,23 @@ public class PlayScreen implements Screen {
         GameUtils.calculatePosition(shipSprite, shipSprite.getX(), shipSprite.getY());
         GameUtils.calculateRotate(shipSprite);
         timeSeconds += Gdx.graphics.getDeltaTime();
-        boolean checkAmount = true;
-        if (timeSeconds > period && checkAmount) {
-            if (index < 19) {
-                index++;
-            } else {
-                checkAmount = false;
-            }
+        if (timeSeconds > period) {
             timeSeconds -= period;
             game.batch.draw(Meteors.getMeteors().get(index), random(0, Gdx.graphics.getWidth()), random(0, Gdx.graphics.getHeight()));
-            Meteors.getMeteors().get(index).setPosition(random(0, Gdx.graphics.getWidth()), random(0, Gdx.graphics.getHeight()));
+            Meteors.getMeteors().get(index).setPosition(300,300);
             Meteors.getMeteors().get(index).setRotation(random(-90, 90));
-
+            index++;
         }
-        for (int i = 0; i < index; i++) {
-            Sprite meteor = Meteors.getMeteors().get(i);
-            GameUtils.calculatePosition(meteor, meteor.getX(), meteor.getY());
-            meteor.translate(-1, -1);
-            meteor.draw(game.batch);
-            if (shipSprite.getX() == meteor.getX() || shipSprite.getY() == meteor.getY()) {
-                float x = shipSprite.getX();
-                float y = shipSprite.getY();
-                shipSprite.set(new Sprite(new Texture(GameTexturePath.DESTROY_SHIP)));
-                shipSprite.setPosition(x, y);
+        if(index <= GameValues.AMOUNT_OF_METEORS_TYPES - 1) {
+            for (int i = 0; i < index; i++) {
+                Sprite meteor = Meteors.getMeteors().get(i);
+                GameUtils.calculatePosition(meteor, meteor.getX(), meteor.getY());
+                meteor.translate(-1, -1);
+                if (shipSprite.getBoundingRectangle().overlaps(meteor.getBoundingRectangle())) {
+                    index = 0;
+                    break;
+                }
+                meteor.draw(game.batch);
             }
         }
         shipSprite.draw(game.batch);
@@ -114,7 +112,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void resume() {
-
+        this.gameCondition = GameCondition.RUN;
     }
 
     @Override

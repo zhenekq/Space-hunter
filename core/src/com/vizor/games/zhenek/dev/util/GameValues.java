@@ -10,5 +10,6 @@ public class GameValues {
     public static final float DOWN_SPEED = -3f;
     public static final int WALL_DELAY = 100;
     public static final int ZERO_VALUE = 0;
+    public static final int AMOUNT_OF_METEORS_TYPES = 20;
 
 }
