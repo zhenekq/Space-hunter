@@ -28,7 +28,6 @@ public class MeteorServiceImpl implements MeteorService {
             Sprite meteor = meteors.get(i);
             GameUtils.calculatePosition(meteor, meteor.getX(), meteor.getY());
             meteor.translate(-1, -1);
-            meteor.draw(game.batch);
             Rectangle shipRectangle = GameUtils.getNormalBoundingRectangle(shipSprite, GameValues.SHIP_RECTANGLE_BORDER);
             Rectangle meteorRectangle = GameUtils.getNormalBoundingRectangle(meteor, GameValues.SHIP_RECTANGLE_BORDER);
             if (shipRectangle.overlaps(meteorRectangle)) {

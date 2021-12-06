@@ -9,4 +9,5 @@ public class GameTexturePath {
     public static final String METEORS = "meteors/meteor1.png";
     public static final String DESTROY_SHIP = "damage1.png";
     public static final String LOSE_SOUND = "core/assets/sounds/lose_sound.ogg";
+    public static final String SHOUT_SHIP_SPRITE = "shout.png";
 }

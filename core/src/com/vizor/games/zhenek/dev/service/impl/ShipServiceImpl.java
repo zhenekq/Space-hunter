@@ -13,4 +13,6 @@ public class ShipServiceImpl implements ShipService {
         GameUtils.calculateRotate(sprite);
         GameUtils.checkButtons(keyPressed, sprite);
     }
+
+
 }

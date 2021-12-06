@@ -2,14 +2,26 @@ package com.vizor.games.zhenek.dev.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.vizor.games.zhenek.dev.util.GameTexturePath;
 
 import java.util.Objects;
 
 public class SpaceShip extends Sprite {
 
     private int shieldAmount = 2;
+    private Sprite shoutSprite;
 
-    public SpaceShip(){}
+    public SpaceShip(){
+        shoutSprite = new Sprite(new Texture(GameTexturePath.SHOUT_SHIP_SPRITE));
+    }
+
+    public Sprite getShoutSprite() {
+        return shoutSprite;
+    }
+
+    public void setShoutSprite(Sprite shoutSprite) {
+        this.shoutSprite = shoutSprite;
+    }
 
     public int getShieldAmount() {
         return shieldAmount;
