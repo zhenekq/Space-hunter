@@ -6,6 +6,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import java.util.Objects;
 
 public class SpaceShip extends Sprite {
+
+    private int shieldAmount = 2;
+
+    public SpaceShip(){}
+
+    public int getShieldAmount() {
+        return shieldAmount;
+    }
+
+    public void setShieldAmount(int shieldAmount) {
+        this.shieldAmount = shieldAmount;
+    }
+
     public SpaceShip(Texture texture) {
         super(texture);
     }

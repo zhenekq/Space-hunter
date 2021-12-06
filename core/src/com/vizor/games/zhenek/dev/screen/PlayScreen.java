@@ -5,17 +5,19 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.entity.Meteors;
 import com.vizor.games.zhenek.dev.entity.SpaceShip;
-import com.vizor.games.zhenek.dev.keyboard.Factory;
-import com.vizor.games.zhenek.dev.keyboard.KeyPressed;
-import com.vizor.games.zhenek.dev.keyboard.MeteorService;
+import com.vizor.games.zhenek.dev.service.Factory;
+import com.vizor.games.zhenek.dev.service.KeyPressed;
+import com.vizor.games.zhenek.dev.service.MeteorService;
+import com.vizor.games.zhenek.dev.service.ShipService;
 import com.vizor.games.zhenek.dev.util.GameCondition;
 import com.vizor.games.zhenek.dev.util.GameTexturePath;
 import com.vizor.games.zhenek.dev.util.GameUtils;
 import com.vizor.games.zhenek.dev.util.GameValues;
+
+import java.util.List;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
@@ -23,7 +25,9 @@ public class PlayScreen implements Screen {
 
     private KeyPressed keyPressed = Factory.getInstance().getKeyPressed();
     private MeteorService meteorService = Factory.getInstance().getMeteorService();
+    private ShipService shipService = Factory.getInstance().getShipService();
     private GameCondition gameCondition = GameCondition.RUN;
+    private List<Sprite> meteors = Meteors.getMeteors();
 
     private SpaceHunter game;
     Texture shipTexture;
@@ -41,7 +45,7 @@ public class PlayScreen implements Screen {
         shipSprite = new SpaceShip(shipTexture);
         backgroundImage = new Texture(GameTexturePath.BACKGROUND_TEXTURE);
         backgroundSprite = new Sprite(backgroundImage);
-        meteorSprite = Meteors.getMeteors().get(random(1, 19));
+        meteorSprite = meteors.get(random(1, 19));
     }
 
 
@@ -51,63 +55,48 @@ public class PlayScreen implements Screen {
     }
 
     private float timeSeconds = 0f;
-    private float period = 2f;
-    static int index = 0;
+    private float period = 3f;
+    private static int index = 0;
 
     @Override
     public void render(float delta) {
-        /*switch (gameCondition){
+        switch (gameCondition){
             case RUN:
                 draw();
                 break;
             case PAUSE:
-                timeSeconds = 0;
-                period = 2;
+                timeSeconds = 0f;
+                period = 3f;
+                index = 0;
+                draw();
                 break;
-        }*/
-        draw();
-
+        }
     }
 
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.batch.draw(backgroundSprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        GameUtils.checkButtons(keyPressed, shipSprite);
-        GameUtils.calculatePosition(shipSprite, shipSprite.getX(), shipSprite.getY());
-        GameUtils.calculateRotate(shipSprite);
+        shipService.checkPositionRotateAndButtons(shipSprite, keyPressed);
         timeSeconds += Gdx.graphics.getDeltaTime();
-        /*if (timeSeconds > period) {
+        if (timeSeconds > period) {
             timeSeconds -= period;
-            game.batch.draw(Meteors.getMeteors().get(index), random(0, Gdx.graphics.getWidth()), random(0, Gdx.graphics.getHeight()));
-            Meteors.getMeteors().get(index).setPosition(random(GameValues.ZERO_VALUE, Gdx.graphics.getWidth()),random(Gdx.graphics.getHeight() / 2,Gdx.graphics.getHeight()));
-            Meteors.getMeteors().get(index).setRotation(random(-90, 90));
+            meteorService.createMeteor(meteors, game, index);
             index++;
-        }
-        if(index <= GameValues.AMOUNT_OF_METEORS_TYPES - 1) {
-            for (int i = 0; i < index; i++) {
-                Sprite meteor = Meteors.getMeteors().get(i);
-                GameUtils.calculatePosition(meteor, meteor.getX(), meteor.getY());
-                meteor.translate(-1,-1);
-                meteor.draw(game.batch);
-                if (shipSprite.getBoundingRectangle().overlaps(meteor.getBoundingRectangle())) {
-                    index = 0;
-                    shipSprite.setPosition(GameValues.ZERO_VALUE,GameValues.ZERO_VALUE);
-                    GameUtils.playLoseMusic();
-                    break;
-                }
-                meteor.draw(game.batch);
+            if (index == GameValues.AMOUNT_OF_METEORS_TYPES) {
+                index = GameValues.AMOUNT_OF_METEORS_TYPES - 1;
             }
-        }*/
+        }
+        index = meteorService.drawMeteors(meteors, shipSprite, game, index);
         shipSprite.draw(game.batch);
         game.batch.end();
     }
+
 
     @Override
     public void resize(int width, int height) {
 
     }
-
 
     @Override
     public void pause() {

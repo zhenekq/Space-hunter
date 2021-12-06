@@ -11,5 +11,6 @@ public class GameValues {
     public static final int WALL_DELAY = 100;
     public static final int ZERO_VALUE = 0;
     public static final int AMOUNT_OF_METEORS_TYPES = 20;
+    public static final float SHIP_RECTANGLE_BORDER = 0.70f;
 
 }

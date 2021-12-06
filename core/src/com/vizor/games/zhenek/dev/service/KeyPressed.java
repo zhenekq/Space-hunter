@@ -1,4 +1,4 @@
-package com.vizor.games.zhenek.dev.keyboard;
+package com.vizor.games.zhenek.dev.service;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 

@@ -1,8 +1,8 @@
-package com.vizor.games.zhenek.dev.keyboard.impl;
+package com.vizor.games.zhenek.dev.service.impl;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.vizor.games.zhenek.dev.keyboard.KeyPressed;
+import com.vizor.games.zhenek.dev.service.KeyPressed;
 
 public class KeyPressedImpl implements KeyPressed {
     @Override

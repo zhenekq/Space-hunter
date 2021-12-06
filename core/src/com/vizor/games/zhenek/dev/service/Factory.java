@@ -1,7 +1,8 @@
-package com.vizor.games.zhenek.dev.keyboard;
+package com.vizor.games.zhenek.dev.service;
 
-import com.vizor.games.zhenek.dev.keyboard.impl.KeyPressedImpl;
-import com.vizor.games.zhenek.dev.keyboard.impl.MeteorServiceImpl;
+import com.vizor.games.zhenek.dev.service.impl.KeyPressedImpl;
+import com.vizor.games.zhenek.dev.service.impl.MeteorServiceImpl;
+import com.vizor.games.zhenek.dev.service.impl.ShipServiceImpl;
 
 public class Factory {
 
@@ -10,6 +11,7 @@ public class Factory {
 
     private KeyPressed keyPressed = new KeyPressedImpl();
     private MeteorService meteorService = new MeteorServiceImpl();
+    private ShipService shipService = new ShipServiceImpl();
 
     public KeyPressed getKeyPressed() {
         return keyPressed;
@@ -20,6 +22,10 @@ public class Factory {
             instance = new Factory();
         }
         return instance;
+    }
+
+    public ShipService getShipService() {
+        return shipService;
     }
 
     public MeteorService getMeteorService() {
