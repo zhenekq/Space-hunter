@@ -11,6 +11,8 @@ import com.vizor.games.zhenek.dev.service.KeyPressed;
 
 import java.io.File;
 
+import static com.badlogic.gdx.Gdx.input;
+
 public class GameUtils {
 
     private GameUtils() {
@@ -51,8 +53,8 @@ public class GameUtils {
         spriteVector.x = sprite.getX();
         spriteVector.y = sprite.getY();
         Vector2 resultVector = new Vector2();
-        resultVector.x = spriteVector.x - Gdx.input.getX();
-        resultVector.y = spriteVector.y - (Gdx.graphics.getHeight() - Gdx.input.getY());
+        resultVector.x = spriteVector.x - input.getX();
+        resultVector.y = spriteVector.y - (Gdx.graphics.getHeight() - input.getY());
         float deg = (float) (180 / Math.PI * Math.atan2(resultVector.y, resultVector.x));
         sprite.setRotation(deg+90);
     }
@@ -69,4 +71,8 @@ public class GameUtils {
         rectangle.setHeight(sprite.getHeight() * multiplier);
         return rectangle;
     }
+
+    public static void checkLoseGame(Rectangle shipRectangle, Rectangle meteorRectangle, )
+
+
 }

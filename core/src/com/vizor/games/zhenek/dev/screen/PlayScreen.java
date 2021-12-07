@@ -11,14 +11,13 @@ import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.entity.Bullets;
 import com.vizor.games.zhenek.dev.entity.Meteors;
 import com.vizor.games.zhenek.dev.entity.SpaceShip;
-import com.vizor.games.zhenek.dev.service.Factory;
-import com.vizor.games.zhenek.dev.service.KeyPressed;
-import com.vizor.games.zhenek.dev.service.MeteorService;
-import com.vizor.games.zhenek.dev.service.ShipService;
+import com.vizor.games.zhenek.dev.service.*;
 import com.vizor.games.zhenek.dev.util.GameCondition;
 import com.vizor.games.zhenek.dev.util.GameTexturePath;
+import com.vizor.games.zhenek.dev.util.GameUtils;
 import com.vizor.games.zhenek.dev.util.GameValues;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.badlogic.gdx.math.MathUtils.random;
@@ -28,11 +27,13 @@ public class PlayScreen implements Screen {
     private KeyPressed keyPressed = Factory.getInstance().getKeyPressed();
     private MeteorService meteorService = Factory.getInstance().getMeteorService();
     private ShipService shipService = Factory.getInstance().getShipService();
+    private BulletService bulletService = Factory.getInstance().getBulletService();
+
     private GameCondition gameCondition = GameCondition.RUN;
     private List<Sprite> meteors = Meteors.getMeteors();
 
     private SpaceHunter game;
-    private Bullets bullets;
+    private List<Sprite> bullets = Bullets.getBullets();
     Texture shipTexture;
     SpaceShip shipSprite;
     BitmapFont score;
@@ -49,7 +50,6 @@ public class PlayScreen implements Screen {
         backgroundImage = new Texture(GameTexturePath.BACKGROUND_TEXTURE);
         backgroundSprite = new Sprite(backgroundImage);
         meteorSprite = meteors.get(random(1, 19));
-        score = new BitmapFont();
         bullet = new Sprite(new Texture(GameTexturePath.SHOUT_SHIP_SPRITE));
     }
 
@@ -62,6 +62,11 @@ public class PlayScreen implements Screen {
     private float timeSeconds = 0f;
     private float period = 3f;
     private static int index = 0;
+
+    public void reset(){
+        positions = new ArrayList<>();
+        bullets = new ArrayList<>();
+    }
 
     @Override
     public void render(float delta) {
@@ -78,12 +83,11 @@ public class PlayScreen implements Screen {
         }
     }
 
-    static int pressed = 0;
+    private List<float[]> positions = new ArrayList<>();
 
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-
         game.batch.draw(backgroundSprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shipService.checkPositionRotateAndButtons(shipSprite, keyPressed);
         timeSeconds += Gdx.graphics.getDeltaTime();
@@ -97,8 +101,9 @@ public class PlayScreen implements Screen {
         }
         index = meteorService.drawMeteors(meteors, shipSprite, game, index);
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-
+            positions.add(bulletService.createBullet(bullets, shipSprite, game));
         }
+        bulletService.shotBullet(bullets, positions, shipSprite, game);
         shipSprite.draw(game.batch);
         game.batch.end();
     }
