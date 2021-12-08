@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface BulletService {
     float[] createBullet(List<Sprite> bullets, Sprite shipSprite,SpaceHunter game);
-    void shotBullet(List<Sprite> bullets,List<float[]> positions, Sprite shipSprite, SpaceHunter game);
+    int shotBullet(List<Sprite> bullets, List<float[]> positions, Sprite shipSprite, SpaceHunter game, int destroyedMeteors);
     void applyMovement(Sprite bullet, SpaceHunter game, float[] positions, Sprite shipSprite);
     default Music playSound(String path){
         File file = new File(path);

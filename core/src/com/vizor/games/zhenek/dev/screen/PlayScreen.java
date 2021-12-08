@@ -14,13 +14,10 @@ import com.vizor.games.zhenek.dev.entity.SpaceShip;
 import com.vizor.games.zhenek.dev.service.*;
 import com.vizor.games.zhenek.dev.util.GameCondition;
 import com.vizor.games.zhenek.dev.util.GameTexturePath;
-import com.vizor.games.zhenek.dev.util.GameUtils;
 import com.vizor.games.zhenek.dev.util.GameValues;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.badlogic.gdx.math.MathUtils.random;
 
 public class PlayScreen implements Screen {
 
@@ -28,19 +25,21 @@ public class PlayScreen implements Screen {
     private MeteorService meteorService = Factory.getInstance().getMeteorService();
     private ShipService shipService = Factory.getInstance().getShipService();
     private BulletService bulletService = Factory.getInstance().getBulletService();
+    private FontService fontService = Factory.getInstance().getFontService();
 
+    private List<float[]> positions = new ArrayList<>();
     private GameCondition gameCondition = GameCondition.RUN;
     private List<Sprite> meteors = Meteors.getMeteors();
+    private static List<Integer> removedMeteors = new ArrayList<>();
+    private static int destroyedMeteors = 0;
 
     private SpaceHunter game;
     private List<Sprite> bullets = Bullets.getBullets();
     Texture shipTexture;
     SpaceShip shipSprite;
-    BitmapFont score;
-
+    BitmapFont font;
     Texture backgroundImage;
     Sprite backgroundSprite;
-    Sprite meteorSprite;
     Sprite bullet;
 
     public PlayScreen(SpaceHunter game) {
@@ -49,8 +48,10 @@ public class PlayScreen implements Screen {
         shipSprite = new SpaceShip(shipTexture);
         backgroundImage = new Texture(GameTexturePath.BACKGROUND_TEXTURE);
         backgroundSprite = new Sprite(backgroundImage);
-        meteorSprite = meteors.get(random(1, 19));
         bullet = new Sprite(new Texture(GameTexturePath.SHOUT_SHIP_SPRITE));
+        font = new BitmapFont();
+        removedMeteors.add(0, index);
+        removedMeteors.add(1, destroyedMeteors);
     }
 
 
@@ -60,12 +61,13 @@ public class PlayScreen implements Screen {
     }
 
     private float timeSeconds = 0f;
-    private float period = 3f;
+    private float period = 2f;
     private static int index = 0;
 
-    public void reset(){
+    public void reset() {
         positions = new ArrayList<>();
         bullets = new ArrayList<>();
+        removedMeteors.set(1,0);
     }
 
     @Override
@@ -83,8 +85,6 @@ public class PlayScreen implements Screen {
         }
     }
 
-    private List<float[]> positions = new ArrayList<>();
-
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
@@ -99,12 +99,15 @@ public class PlayScreen implements Screen {
                 index = GameValues.AMOUNT_OF_METEORS_TYPES - 1;
             }
         }
-        index = meteorService.drawMeteors(meteors, shipSprite, game, index);
+        index = meteorService.drawMeteors(meteors, shipSprite, game, index, this);
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             positions.add(bulletService.createBullet(bullets, shipSprite, game));
         }
-        bulletService.shotBullet(bullets, positions, shipSprite, game);
+        bulletService.shotBullet(bullets, positions, shipSprite, game, destroyedMeteors);
+        index = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors).get(0);
+        removedMeteors = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors);
         shipSprite.draw(game.batch);
+        fontService.printScore(font, game, removedMeteors.get(1));
         game.batch.end();
     }
 

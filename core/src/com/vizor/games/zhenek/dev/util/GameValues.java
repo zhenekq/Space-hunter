@@ -13,4 +13,5 @@ public class GameValues {
     public static final int AMOUNT_OF_METEORS_TYPES = 20;
     public static final float SHIP_RECTANGLE_BORDER = 0.70f;
 
+
 }

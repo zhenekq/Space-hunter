@@ -7,15 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Meteors {
-    private static List<Sprite> meteors = new ArrayList<>(20);
+    private static List<Sprite> meteors = new ArrayList<>();
 
     private Meteors(){}
 
-    static {
-        for (int i = 1; i <= 20; i++) {
-            meteors.add(new Sprite(new Texture("meteors/meteor" + i + ".png")));
-        }
-    }
+
+    public void addMeteor(Sprite meteor){}
 
     public static List<Sprite> getMeteors() {
         return meteors;

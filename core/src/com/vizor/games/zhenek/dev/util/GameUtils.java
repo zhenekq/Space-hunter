@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.vizor.games.zhenek.dev.service.KeyPressed;
 
 import java.io.File;
+import java.util.List;
 
 import static com.badlogic.gdx.Gdx.input;
 
@@ -72,7 +73,11 @@ public class GameUtils {
         return rectangle;
     }
 
-    public static void checkLoseGame(Rectangle shipRectangle, Rectangle meteorRectangle, )
+    public static int checkLoseGame(int index, Sprite shipSprite){
+        shipSprite.setPosition(GameValues.ZERO_VALUE, GameValues.ZERO_VALUE);
+        GameUtils.playLoseMusic();
+        return index = 0;
+    }
 
 
 }

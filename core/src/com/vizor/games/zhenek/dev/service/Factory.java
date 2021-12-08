@@ -1,9 +1,6 @@
 package com.vizor.games.zhenek.dev.service;
 
-import com.vizor.games.zhenek.dev.service.impl.BulletServiceImpl;
-import com.vizor.games.zhenek.dev.service.impl.KeyPressedImpl;
-import com.vizor.games.zhenek.dev.service.impl.MeteorServiceImpl;
-import com.vizor.games.zhenek.dev.service.impl.ShipServiceImpl;
+import com.vizor.games.zhenek.dev.service.impl.*;
 
 public class Factory {
 
@@ -20,6 +17,7 @@ public class Factory {
     private MeteorService meteorService = new MeteorServiceImpl();
     private ShipService shipService = new ShipServiceImpl();
     private BulletService bulletService = new BulletServiceImpl();
+    private FontService fontService = new FontServiceImpl();
 
     public KeyPressed getKeyPressed() {
         return keyPressed;
@@ -35,5 +33,9 @@ public class Factory {
 
     public BulletService getBulletService() {
         return bulletService;
+    }
+
+    public FontService getFontService() {
+        return fontService;
     }
 }

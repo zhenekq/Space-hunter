@@ -17,6 +17,7 @@ public class BulletServiceImpl implements BulletService {
         final float[] mousePosition = new float[4];
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
+        Music music = null;
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             mousePosition[0] = shipSprite.getX();
             mousePosition[1] = shipSprite.getY();
@@ -26,14 +27,12 @@ public class BulletServiceImpl implements BulletService {
             bullet.setPosition(shipSprite.getX(), shipSprite.getY());
             bullet.setRotation(shipSprite.getRotation());
             bullets.add(bullet);
-            Music music = playSound(GameTexturePath.SHOT_SOUND);
-            music.play();
         }
         return mousePosition;
     }
 
     @Override
-    public void shotBullet(List<Sprite> bullets, List<float[]> positions, Sprite shipSprite, SpaceHunter game) {
+    public int shotBullet(List<Sprite> bullets, List<float[]> positions, Sprite shipSprite, SpaceHunter game, int destroyedMeteors) {
         for (int i = 0; i < bullets.size(); i++) {
             Sprite bullet = bullets.get(i);
             float[] position = positions.get(i);
@@ -42,8 +41,10 @@ public class BulletServiceImpl implements BulletService {
             if(bullet.getX() > Gdx.graphics.getWidth() || bullet.getY() > Gdx.graphics.getHeight()){
                 bullets.remove(bullet);
                 positions.remove(position);
+                destroyedMeteors++;
             }
         }
+        return destroyedMeteors;
     }
 
 
