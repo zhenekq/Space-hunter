@@ -12,14 +12,16 @@ import com.vizor.games.zhenek.dev.entity.Bullets;
 import com.vizor.games.zhenek.dev.entity.Meteors;
 import com.vizor.games.zhenek.dev.entity.SpaceShip;
 import com.vizor.games.zhenek.dev.service.*;
-import com.vizor.games.zhenek.dev.util.GameCondition;
 import com.vizor.games.zhenek.dev.util.GameTexturePath;
-import com.vizor.games.zhenek.dev.util.GameValues;
+import com.vizor.games.zhenek.dev.util.GameUtil;
+import com.vizor.games.zhenek.dev.util.GameValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlayScreen implements Screen {
+
+    private SpaceHunter game;
 
     private KeyPressed keyPressed = Factory.getInstance().getKeyPressed();
     private MeteorService meteorService = Factory.getInstance().getMeteorService();
@@ -29,32 +31,33 @@ public class PlayScreen implements Screen {
     private ImageService imageService = Factory.getInstance().getImageService();
 
     private List<float[]> positions = new ArrayList<>();
-    private GameCondition gameCondition = GameCondition.RUN;
     private List<Sprite> meteors = Meteors.getMeteors();
     private static List<Integer> removedMeteors = new ArrayList<>();
-    private static int destroyedMeteors = 0;
-
-    private SpaceHunter game;
     private List<Sprite> bullets = Bullets.getBullets();
-    Texture shipTexture;
-    SpaceShip shipSprite;
-    BitmapFont font;
-    Texture backgroundImage;
-    Sprite backgroundSprite;
-    Sprite bullet;
-    Sprite scoreSprite;
+    private static List<Integer> meteorsTranslate = new ArrayList<>();
+
+    private SpaceShip shipSprite;
+    private Sprite backgroundSprite;
+    private Sprite shieldSprite;
+    private Sprite scoreSprite;
+
+    private BitmapFont score = new BitmapFont();
+    private BitmapFont shieldText = new BitmapFont();
+
+    private static int destroyedMeteors = 0;
+    private float timeSeconds = GameValue.ZERO_VALUE;
+    private float period = GameValue.DEFAULT_PERIOD_TIMER;
+    private static int index = GameValue.ZERO_VALUE;
 
     public PlayScreen(SpaceHunter game) {
         this.game = game;
-        shipTexture = new Texture(GameTexturePath.SHIP_TEXTURE);
-        shipSprite = new SpaceShip(shipTexture);
-        backgroundImage = new Texture(GameTexturePath.BACKGROUND_TEXTURE);
-        backgroundSprite = new Sprite(backgroundImage);
-        bullet = new Sprite(new Texture(GameTexturePath.SHOUT_SHIP_SPRITE));
-        font = new BitmapFont();
+        shipSprite = new SpaceShip(new Texture(GameTexturePath.SHIP_TEXTURE));
+        backgroundSprite = new Sprite(new Texture(GameTexturePath.BACKGROUND_TEXTURE));
         scoreSprite = new Sprite(new Texture(GameTexturePath.SCORE_SPRITE));
-        removedMeteors.add(0, index);
-        removedMeteors.add(1, destroyedMeteors);
+        shieldSprite = new Sprite(new Texture(GameTexturePath.GOLD_SHIELD));
+        removedMeteors.add(GameValue.ZERO_VALUE, index);
+        removedMeteors.add(GameValue.SCORE_INDEX, destroyedMeteors);
+        shipSprite.setPosition(Gdx.graphics.getWidth() / 2f, GameValue.ZERO_VALUE + shipSprite.getHeight());
     }
 
 
@@ -63,54 +66,46 @@ public class PlayScreen implements Screen {
 
     }
 
-    private float timeSeconds = 0f;
-    private float period = 1f;
-    private static int index = 0;
-
     public void reset() {
+        shipSprite.setPosition(Gdx.graphics.getWidth() / 2f, GameValue.ZERO_VALUE + shipSprite.getHeight());
         positions = new ArrayList<>();
         bullets = new ArrayList<>();
-        removedMeteors.set(1,0);
+        removedMeteors.set(GameValue.SCORE_INDEX, GameValue.ZERO_VALUE);
+        shieldSprite = new Sprite(new Texture(GameTexturePath.GOLD_SHIELD));
+        shipSprite.setShieldAmount(GameValue.SHIELD_AMOUNT);
     }
 
     @Override
     public void render(float delta) {
-        switch (gameCondition) {
-            case RUN:
-                draw();
-                break;
-            case PAUSE:
-                timeSeconds = 0f;
-                period = 3f;
-                index = 0;
-                draw();
-                break;
-        }
+        draw();
     }
 
     private void draw() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.batch.draw(backgroundSprite, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(backgroundSprite, GameValue.ZERO_VALUE, GameValue.ZERO_VALUE, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         shipService.checkPositionRotateAndButtons(shipSprite, keyPressed);
         timeSeconds += Gdx.graphics.getDeltaTime();
         if (timeSeconds > period) {
             timeSeconds -= period;
+            meteorsTranslate.add(GameUtil.getRandomPositiveOrNegativeValue());
             meteorService.createMeteor(meteors, game, index);
             index++;
-            if (index == GameValues.AMOUNT_OF_METEORS_TYPES) {
-                index = GameValues.AMOUNT_OF_METEORS_TYPES - 1;
+            if (index == GameValue.AMOUNT_OF_METEORS_TYPES) {
+                index = GameValue.AMOUNT_OF_METEORS_TYPES - 1;
             }
         }
-        index = meteorService.drawMeteors(meteors, shipSprite, game, index, this);
+        index = meteorService.drawMeteors(meteors, meteorsTranslate, shieldSprite, shipSprite, game, index, this);
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             positions.add(bulletService.createBullet(bullets, shipSprite, game));
         }
         bulletService.shotBullet(bullets, positions, shipSprite, game, destroyedMeteors);
         index = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors).get(0);
         removedMeteors = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors);
-        fontService.printScore(font, game, removedMeteors.get(1));
-        imageService.placeImage(game, scoreSprite, GameValues.ZERO_VALUE, Gdx.graphics.getHeight() - GameValues.DEFAULT_VALUE_SHIFT);
+        fontService.printScore(score, game, removedMeteors.get(1));
+        imageService.placeImage(game, scoreSprite, GameValue.ZERO_VALUE, Gdx.graphics.getHeight() - GameValue.DEFAULT_VALUE_SHIFT);
+        imageService.placeImage(game, shieldSprite, GameValue.DEFAULT_VALUE_SHIFT * 3.4f, Gdx.graphics.getHeight() - GameValue.DEFAULT_VALUE_SHIFT * 2.3f);
+        fontService.printShieldStatus(shipSprite, shieldText, game, shieldSprite);
         shipSprite.draw(game.batch);
         game.batch.end();
     }
@@ -123,12 +118,12 @@ public class PlayScreen implements Screen {
 
     @Override
     public void pause() {
-        this.gameCondition = GameCondition.PAUSE;
+
     }
 
     @Override
     public void resume() {
-        this.gameCondition = GameCondition.RUN;
+
     }
 
     @Override

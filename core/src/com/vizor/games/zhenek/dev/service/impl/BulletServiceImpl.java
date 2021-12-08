@@ -3,6 +3,8 @@ package com.vizor.games.zhenek.dev.service.impl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.vizor.games.zhenek.dev.SpaceHunter;
@@ -17,7 +19,7 @@ public class BulletServiceImpl implements BulletService {
         final float[] mousePosition = new float[4];
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
-        Music music = null;
+        Sound sound = null;
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             mousePosition[0] = shipSprite.getX();
             mousePosition[1] = shipSprite.getY();
@@ -27,6 +29,8 @@ public class BulletServiceImpl implements BulletService {
             bullet.setPosition(shipSprite.getX(), shipSprite.getY());
             bullet.setRotation(shipSprite.getRotation());
             bullets.add(bullet);
+            sound = Gdx.audio.newSound(new FileHandle(GameTexturePath.SHOT_SOUND));
+            sound.play();
         }
         return mousePosition;
     }

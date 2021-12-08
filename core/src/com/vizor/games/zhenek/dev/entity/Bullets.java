@@ -1,8 +1,6 @@
 package com.vizor.games.zhenek.dev.entity;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.vizor.games.zhenek.dev.util.GameTexturePath;
 
 import java.util.ArrayList;
 import java.util.List;

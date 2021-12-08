@@ -10,27 +10,27 @@ import com.badlogic.gdx.math.Vector2;
 import com.vizor.games.zhenek.dev.service.KeyPressed;
 
 import java.io.File;
-import java.util.List;
+import java.util.Random;
 
 import static com.badlogic.gdx.Gdx.input;
 
-public class GameUtils {
+public class GameUtil {
 
-    private GameUtils() {
+    private GameUtil() {
     }
 
     public static void checkButtons(KeyPressed keyPressed, Sprite sprite) {
         //WASD
-        keyPressed.isPressedKeyX(sprite, Input.Keys.D, GameValues.RIGHT_SPEED);
-        keyPressed.isPressedKeyX(sprite, Input.Keys.A, GameValues.LEFT_SPEED);
-        keyPressed.isPressedKeyY(sprite, Input.Keys.W, GameValues.UP_SPEED);
-        keyPressed.isPressedKeyY(sprite, Input.Keys.S, GameValues.DOWN_SPEED);
+        keyPressed.isPressedKeyX(sprite, Input.Keys.D, GameValue.RIGHT_SPEED);
+        keyPressed.isPressedKeyX(sprite, Input.Keys.A, GameValue.LEFT_SPEED);
+        keyPressed.isPressedKeyY(sprite, Input.Keys.W, GameValue.UP_SPEED);
+        keyPressed.isPressedKeyY(sprite, Input.Keys.S, GameValue.DOWN_SPEED);
 
         //ARROWS
-        keyPressed.isPressedKeyX(sprite, Input.Keys.RIGHT, GameValues.RIGHT_SPEED);
-        keyPressed.isPressedKeyX(sprite, Input.Keys.LEFT, GameValues.LEFT_SPEED);
-        keyPressed.isPressedKeyY(sprite, Input.Keys.UP, GameValues.UP_SPEED);
-        keyPressed.isPressedKeyY(sprite, Input.Keys.DOWN, GameValues.DOWN_SPEED);
+        keyPressed.isPressedKeyX(sprite, Input.Keys.RIGHT, GameValue.RIGHT_SPEED);
+        keyPressed.isPressedKeyX(sprite, Input.Keys.LEFT, GameValue.LEFT_SPEED);
+        keyPressed.isPressedKeyY(sprite, Input.Keys.UP, GameValue.UP_SPEED);
+        keyPressed.isPressedKeyY(sprite, Input.Keys.DOWN, GameValue.DOWN_SPEED);
 
     }
 
@@ -38,13 +38,13 @@ public class GameUtils {
         float maxX = Gdx.graphics.getWidth() - sprite.getWidth();
         float maxY = Gdx.graphics.getHeight() - sprite.getHeight();
 
-        if (sprite.getX() > maxX + GameValues.WALL_DELAY) {
-            sprite.setPosition(GameValues.ZERO_VALUE - sprite.getWidth(), sprite.getY());
-        } else if (sprite.getX() < GameValues.ZERO_VALUE - GameValues.WALL_DELAY) {
+        if (sprite.getX() > maxX + GameValue.WALL_DELAY) {
+            sprite.setPosition(GameValue.ZERO_VALUE - sprite.getWidth(), sprite.getY());
+        } else if (sprite.getX() < GameValue.ZERO_VALUE - GameValue.WALL_DELAY) {
             sprite.setPosition(Gdx.graphics.getWidth(), sprite.getY());
-        } else if (sprite.getY() > maxY + GameValues.WALL_DELAY) {
-            sprite.setPosition(sprite.getX(), GameValues.ZERO_VALUE - sprite.getHeight());
-        } else if (sprite.getY() < GameValues.ZERO_VALUE - GameValues.WALL_DELAY) {
+        } else if (sprite.getY() > maxY + GameValue.WALL_DELAY) {
+            sprite.setPosition(sprite.getX(), GameValue.ZERO_VALUE - sprite.getHeight());
+        } else if (sprite.getY() < GameValue.ZERO_VALUE - GameValue.WALL_DELAY) {
             sprite.setPosition(sprite.getX(), Gdx.graphics.getHeight());
         }
     }
@@ -57,7 +57,7 @@ public class GameUtils {
         resultVector.x = spriteVector.x - input.getX();
         resultVector.y = spriteVector.y - (Gdx.graphics.getHeight() - input.getY());
         float deg = (float) (180 / Math.PI * Math.atan2(resultVector.y, resultVector.x));
-        sprite.setRotation(deg+90);
+        sprite.setRotation(deg + 90);
     }
 
     public static void playLoseMusic() {
@@ -66,17 +66,22 @@ public class GameUtils {
         music.play();
     }
 
-    public static Rectangle getNormalBoundingRectangle(Sprite sprite, float multiplier){
+    public static Rectangle getNormalBoundingRectangle(Sprite sprite, float multiplier) {
         Rectangle rectangle = sprite.getBoundingRectangle();
         rectangle.setWidth(sprite.getWidth() * multiplier);
         rectangle.setHeight(sprite.getHeight() * multiplier);
         return rectangle;
     }
 
-    public static int checkLoseGame(int index, Sprite shipSprite){
-        shipSprite.setPosition(GameValues.ZERO_VALUE, GameValues.ZERO_VALUE);
-        GameUtils.playLoseMusic();
+    public static int checkLoseGame(int index, Sprite shipSprite) {
+        shipSprite.setPosition(GameValue.ZERO_VALUE, GameValue.ZERO_VALUE);
+        GameUtil.playLoseMusic();
         return index = 0;
+    }
+
+    public static int getRandomPositiveOrNegativeValue() {
+        Random random = new Random();
+        return random.nextInt((1 - (-1)) + 1) + (-1);
     }
 
 
