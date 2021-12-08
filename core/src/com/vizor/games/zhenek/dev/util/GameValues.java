@@ -12,6 +12,8 @@ public class GameValues {
     public static final int ZERO_VALUE = 0;
     public static final int AMOUNT_OF_METEORS_TYPES = 20;
     public static final float SHIP_RECTANGLE_BORDER = 0.70f;
-
+    public static final float BULLET_RECTANGLE_BORDER = 1f;
+    public static final float DEFAULT_VALUE_SHIFT = 35;
+    public static final float ANOTHER_SHIFT = 10;
 
 }

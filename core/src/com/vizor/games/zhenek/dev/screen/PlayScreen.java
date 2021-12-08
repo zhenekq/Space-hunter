@@ -26,6 +26,7 @@ public class PlayScreen implements Screen {
     private ShipService shipService = Factory.getInstance().getShipService();
     private BulletService bulletService = Factory.getInstance().getBulletService();
     private FontService fontService = Factory.getInstance().getFontService();
+    private ImageService imageService = Factory.getInstance().getImageService();
 
     private List<float[]> positions = new ArrayList<>();
     private GameCondition gameCondition = GameCondition.RUN;
@@ -41,6 +42,7 @@ public class PlayScreen implements Screen {
     Texture backgroundImage;
     Sprite backgroundSprite;
     Sprite bullet;
+    Sprite scoreSprite;
 
     public PlayScreen(SpaceHunter game) {
         this.game = game;
@@ -50,6 +52,7 @@ public class PlayScreen implements Screen {
         backgroundSprite = new Sprite(backgroundImage);
         bullet = new Sprite(new Texture(GameTexturePath.SHOUT_SHIP_SPRITE));
         font = new BitmapFont();
+        scoreSprite = new Sprite(new Texture(GameTexturePath.SCORE_SPRITE));
         removedMeteors.add(0, index);
         removedMeteors.add(1, destroyedMeteors);
     }
@@ -61,7 +64,7 @@ public class PlayScreen implements Screen {
     }
 
     private float timeSeconds = 0f;
-    private float period = 2f;
+    private float period = 1f;
     private static int index = 0;
 
     public void reset() {
@@ -106,8 +109,9 @@ public class PlayScreen implements Screen {
         bulletService.shotBullet(bullets, positions, shipSprite, game, destroyedMeteors);
         index = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors).get(0);
         removedMeteors = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors);
-        shipSprite.draw(game.batch);
         fontService.printScore(font, game, removedMeteors.get(1));
+        imageService.placeImage(game, scoreSprite, GameValues.ZERO_VALUE, Gdx.graphics.getHeight() - GameValues.DEFAULT_VALUE_SHIFT);
+        shipSprite.draw(game.batch);
         game.batch.end();
     }
 

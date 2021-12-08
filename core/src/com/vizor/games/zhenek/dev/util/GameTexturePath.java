@@ -11,4 +11,5 @@ public class GameTexturePath {
     public static final String LOSE_SOUND = "core/assets/sounds/lose_sound.ogg";
     public static final String SHOUT_SHIP_SPRITE = "shout.png";
     public static final String SHOT_SOUND = "core/assets/sounds/shot_sound.ogg";
+    public static final String SCORE_SPRITE = "score_star.png";
 }

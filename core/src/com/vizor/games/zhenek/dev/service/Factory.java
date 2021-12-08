@@ -18,6 +18,7 @@ public class Factory {
     private ShipService shipService = new ShipServiceImpl();
     private BulletService bulletService = new BulletServiceImpl();
     private FontService fontService = new FontServiceImpl();
+    private ImageService imageService = new ImageServiceImpl();
 
     public KeyPressed getKeyPressed() {
         return keyPressed;
@@ -33,6 +34,10 @@ public class Factory {
 
     public BulletService getBulletService() {
         return bulletService;
+    }
+
+    public ImageService getImageService() {
+        return imageService;
     }
 
     public FontService getFontService() {

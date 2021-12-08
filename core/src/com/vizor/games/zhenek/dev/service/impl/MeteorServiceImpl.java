@@ -49,7 +49,7 @@ public class MeteorServiceImpl implements MeteorService {
         for (int i = 0; i < bullets.size(); i++) {
             Sprite bullet = bullets.get(i);
             float[] position = positions.get(i);
-            Rectangle bulletRectangle = GameUtils.getNormalBoundingRectangle(bullet, GameValues.SHIP_RECTANGLE_BORDER);
+            Rectangle bulletRectangle = GameUtils.getNormalBoundingRectangle(bullet, GameValues.BULLET_RECTANGLE_BORDER);
             for (int j = 0; j < meteors.size(); j++) {
                 Sprite meteor = meteors.get(j);
                 Rectangle meteorRectangle = GameUtils.getNormalBoundingRectangle(meteor, GameValues.SHIP_RECTANGLE_BORDER);
