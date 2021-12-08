@@ -34,7 +34,7 @@ public class PlayScreen implements Screen {
     private List<Sprite> meteors = Meteors.getMeteors();
     private static List<Integer> removedMeteors = new ArrayList<>();
     private List<Sprite> bullets = Bullets.getBullets();
-    private static List<Integer> meteorsTranslate = new ArrayList<>();
+    private static List<Float> meteorsTranslate = new ArrayList<>();
 
     private SpaceShip shipSprite;
     private Sprite backgroundSprite;
@@ -100,8 +100,8 @@ public class PlayScreen implements Screen {
             positions.add(bulletService.createBullet(bullets, shipSprite, game));
         }
         bulletService.shotBullet(bullets, positions, shipSprite, game, destroyedMeteors);
-        index = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors).get(0);
-        removedMeteors = meteorService.destroyMeteor(bullets, removedMeteors, meteors, positions, index, destroyedMeteors);
+        index = meteorService.destroyMeteor(bullets, meteorsTranslate, removedMeteors, meteors, positions, index, destroyedMeteors).get(0);
+        removedMeteors = meteorService.destroyMeteor(bullets, meteorsTranslate, removedMeteors, meteors, positions, index, destroyedMeteors);
         fontService.printScore(score, game, removedMeteors.get(1));
         imageService.placeImage(game, scoreSprite, GameValue.ZERO_VALUE, Gdx.graphics.getHeight() - GameValue.DEFAULT_VALUE_SHIFT);
         imageService.placeImage(game, shieldSprite, GameValue.DEFAULT_VALUE_SHIFT * 3.4f, Gdx.graphics.getHeight() - GameValue.DEFAULT_VALUE_SHIFT * 2.3f);

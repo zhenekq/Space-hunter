@@ -79,9 +79,10 @@ public class GameUtil {
         return index = 0;
     }
 
-    public static int getRandomPositiveOrNegativeValue() {
+    public static float getRandomPositiveOrNegativeValue() {
         Random random = new Random();
-        return random.nextInt((1 - (-1)) + 1) + (-1);
+        float randomFloatValue = (float) (-1 + Math.random() * (1 + 1f));
+        return randomFloatValue;
     }
 
 

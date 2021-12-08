@@ -15,7 +15,6 @@ import com.vizor.games.zhenek.dev.util.GameUtil;
 import com.vizor.games.zhenek.dev.util.GameValue;
 
 import java.util.List;
-import java.util.Random;
 
 import static com.badlogic.gdx.math.MathUtils.random;
 
@@ -30,10 +29,10 @@ public class MeteorServiceImpl implements MeteorService {
     }
 
     @Override
-    public int drawMeteors(List<Sprite> meteors, List<Integer> meteorTranslates, Sprite shieldSprite, SpaceShip shipSprite, SpaceHunter game, int index, PlayScreen screen) {
+    public int drawMeteors(List<Sprite> meteors, List<Float> meteorTranslates, Sprite shieldSprite, SpaceShip shipSprite, SpaceHunter game, int index, PlayScreen screen) {
         for (int i = 0; i < index; i++) {
             Sprite meteor = meteors.get(i);
-            Integer meteorTranslate = meteorTranslates.get(i);
+            Float meteorTranslate = meteorTranslates.get(i);
             GameUtil.calculatePosition(meteor, meteor.getX(), meteor.getY());
             meteor.translate(meteorTranslate, -1);
             Sound sound = null;
@@ -60,7 +59,7 @@ public class MeteorServiceImpl implements MeteorService {
     }
 
     @Override
-    public List<Integer> destroyMeteor(List<Sprite> bullets, List<Integer> removedMeteorsList, List<Sprite> meteors, List<float[]> positions, int index, int removedMeteors) {
+    public List<Integer> destroyMeteor(List<Sprite> bullets, List<Float> translateMeteors, List<Integer> removedMeteorsList, List<Sprite> meteors, List<float[]> positions, int index, int removedMeteors) {
         removedMeteorsList.set(0, index);
         Sound sound = null;
         for (int i = 0; i < bullets.size(); i++) {
@@ -75,6 +74,7 @@ public class MeteorServiceImpl implements MeteorService {
                     bullets.remove(bullet);
                     meteors.remove(meteor);
                     positions.remove(position);
+                    translateMeteors.remove(i);
                     index--;
                     removedMeteors = removedMeteorsList.get(1);
                     removedMeteorsList.set(0, index);
