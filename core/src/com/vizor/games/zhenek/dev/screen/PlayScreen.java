@@ -11,10 +11,10 @@ import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.entity.Bullets;
 import com.vizor.games.zhenek.dev.entity.Meteors;
 import com.vizor.games.zhenek.dev.entity.SpaceShip;
-import com.vizor.games.zhenek.dev.service.*;
-import com.vizor.games.zhenek.dev.util.GameTexturePath;
+import com.vizor.games.zhenek.dev.service.game.*;
+import com.vizor.games.zhenek.dev.util.value.GameTexturePath;
 import com.vizor.games.zhenek.dev.util.GameUtil;
-import com.vizor.games.zhenek.dev.util.GameValue;
+import com.vizor.games.zhenek.dev.util.value.GameValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +23,12 @@ public class PlayScreen implements Screen {
 
     private SpaceHunter game;
 
-    private KeyPressed keyPressed = Factory.getInstance().getKeyPressed();
-    private MeteorService meteorService = Factory.getInstance().getMeteorService();
-    private ShipService shipService = Factory.getInstance().getShipService();
-    private BulletService bulletService = Factory.getInstance().getBulletService();
-    private FontService fontService = Factory.getInstance().getFontService();
-    private ImageService imageService = Factory.getInstance().getImageService();
+    private KeyPressed keyPressed = GameFactory.getInstance().getKeyPressed();
+    private MeteorService meteorService = GameFactory.getInstance().getMeteorService();
+    private ShipService shipService = GameFactory.getInstance().getShipService();
+    private BulletService bulletService = GameFactory.getInstance().getBulletService();
+    private FontService fontService = GameFactory.getInstance().getFontService();
+    private ImageService imageService = GameFactory.getInstance().getImageService();
 
     private List<float[]> positions = new ArrayList<>();
     private List<Sprite> meteors = Meteors.getMeteors();

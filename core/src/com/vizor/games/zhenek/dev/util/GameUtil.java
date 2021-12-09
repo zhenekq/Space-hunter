@@ -7,7 +7,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.vizor.games.zhenek.dev.service.KeyPressed;
+import com.vizor.games.zhenek.dev.service.game.KeyPressed;
+import com.vizor.games.zhenek.dev.util.value.GameTexturePath;
+import com.vizor.games.zhenek.dev.util.value.GameValue;
 
 import java.io.File;
 import java.util.Random;
