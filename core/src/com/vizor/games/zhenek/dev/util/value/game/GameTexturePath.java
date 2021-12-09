@@ -1,4 +1,4 @@
-package com.vizor.games.zhenek.dev.util.value;
+package com.vizor.games.zhenek.dev.util.value.game;
 
 public class GameTexturePath {
 

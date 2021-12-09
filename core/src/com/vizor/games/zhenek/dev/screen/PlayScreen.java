@@ -12,9 +12,9 @@ import com.vizor.games.zhenek.dev.entity.Bullets;
 import com.vizor.games.zhenek.dev.entity.Meteors;
 import com.vizor.games.zhenek.dev.entity.SpaceShip;
 import com.vizor.games.zhenek.dev.service.game.*;
-import com.vizor.games.zhenek.dev.util.value.GameTexturePath;
+import com.vizor.games.zhenek.dev.util.value.game.GameTexturePath;
 import com.vizor.games.zhenek.dev.util.GameUtil;
-import com.vizor.games.zhenek.dev.util.value.GameValue;
+import com.vizor.games.zhenek.dev.util.value.game.GameValue;
 
 import java.util.ArrayList;
 import java.util.List;

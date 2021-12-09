@@ -10,9 +10,9 @@ import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.entity.SpaceShip;
 import com.vizor.games.zhenek.dev.screen.PlayScreen;
 import com.vizor.games.zhenek.dev.service.game.MeteorService;
-import com.vizor.games.zhenek.dev.util.value.GameTexturePath;
+import com.vizor.games.zhenek.dev.util.value.game.GameTexturePath;
 import com.vizor.games.zhenek.dev.util.GameUtil;
-import com.vizor.games.zhenek.dev.util.value.GameValue;
+import com.vizor.games.zhenek.dev.util.value.game.GameValue;
 
 import java.util.List;
 

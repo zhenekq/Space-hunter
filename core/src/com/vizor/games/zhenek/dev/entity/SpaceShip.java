@@ -2,7 +2,7 @@ package com.vizor.games.zhenek.dev.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.vizor.games.zhenek.dev.util.value.GameTexturePath;
+import com.vizor.games.zhenek.dev.util.value.game.GameTexturePath;
 
 public class SpaceShip extends Sprite {
 

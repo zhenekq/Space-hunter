@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.service.game.BulletService;
-import com.vizor.games.zhenek.dev.util.value.GameTexturePath;
+import com.vizor.games.zhenek.dev.util.value.game.GameTexturePath;
 
 import java.util.List;
 

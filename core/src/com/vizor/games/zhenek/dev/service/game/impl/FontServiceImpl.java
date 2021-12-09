@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.entity.SpaceShip;
 import com.vizor.games.zhenek.dev.service.game.FontService;
-import com.vizor.games.zhenek.dev.util.value.GameColor;
-import com.vizor.games.zhenek.dev.util.value.GameLabel;
-import com.vizor.games.zhenek.dev.util.value.GameTexturePath;
-import com.vizor.games.zhenek.dev.util.value.GameValue;
+import com.vizor.games.zhenek.dev.util.value.game.GameColor;
+import com.vizor.games.zhenek.dev.util.value.game.GameLabel;
+import com.vizor.games.zhenek.dev.util.value.game.GameTexturePath;
+import com.vizor.games.zhenek.dev.util.value.game.GameValue;
 
 public class FontServiceImpl implements FontService {
     @Override

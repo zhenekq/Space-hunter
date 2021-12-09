@@ -2,12 +2,14 @@ package com.vizor.games.zhenek.dev.screen;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.vizor.games.zhenek.dev.SpaceHunter;
 import com.vizor.games.zhenek.dev.util.GifDecoder;
 
@@ -15,12 +17,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 
 public class MenuScreen implements Screen {
 
     public SpaceHunter menuScreen;
     private Animation<TextureRegion> animationBackground;
     private Sprite backgroundSprite;
+    private List<ImageButton> menuButtons;
     float elapsed;
 
 
